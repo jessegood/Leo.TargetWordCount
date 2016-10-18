@@ -68,7 +68,7 @@ namespace Leo.TargetWordCount
                 decimal rate = 0M;
                 if (!string.IsNullOrEmpty(invoiceItem.Rate))
                 {
-                    rate = decimal.Parse(invoiceItem.Rate, System.Globalization.NumberStyles.Currency);
+                    rate = decimal.Parse(invoiceItem.Rate, System.Globalization.NumberStyles.Currency, CultureRepository.Cultures[settings.Culture]);
                 }
 
                 var amount = count * rate;

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-namespace Leo.TargetWordCount
+﻿namespace Leo.TargetWordCount
 {
     using Models;
     using Sdl.Desktop.IntegrationApi;
@@ -8,6 +7,7 @@ namespace Leo.TargetWordCount
     using System.Globalization;
     using System.Linq;
     using System.Windows.Forms;
+    using System.Diagnostics.Contracts;
 
     public partial class WordCountBatchTaskSettingsControl : UserControl, ISettingsAware<WordCountBatchTaskSettings>
     {
@@ -71,7 +71,7 @@ namespace Leo.TargetWordCount
 
                 if (decimal.TryParse(cell.Value.ToString(), out d))
                 {
-                    cell.Value = d.ToString("C", CultureRepository.Cultures[cultureComboBox.SelectedItem.ToString()]);
+                    cell.Value = d.ToString("C2", CultureRepository.Cultures[cultureComboBox.SelectedItem.ToString()]);
                 }
             }
         }
