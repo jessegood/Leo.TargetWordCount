@@ -4,6 +4,7 @@ namespace Leo.TargetWordCount.Models
 {
     public enum RateType
     {
+        Locked,
         PerfectMatch,
         ContextMatch,
         Repetitions,

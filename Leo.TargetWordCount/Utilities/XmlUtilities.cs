@@ -8,31 +8,30 @@
 
     public static class XmlUtilities
     {
-        public static RateInfo Deserialize(string openPath)
+        public static SerializableSettings Deserialize(string openPath)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(openPath));
-            Contract.Ensures(Contract.Result<RateInfo>() != null);
+            Contract.Ensures(Contract.Result<SerializableSettings>() != null);
 
-            XmlSerializer deserializer = new XmlSerializer(typeof(RateInfo));
+            XmlSerializer deserializer = new XmlSerializer(typeof(SerializableSettings));
 
             using (TextReader reader = new StreamReader(openPath))
             {
                 object obj = deserializer.Deserialize(reader);
-                return (RateInfo)obj;
+                return (SerializableSettings)obj;
             }
         }
 
-        public static void Serialize(RateInfo info, string savePath)
+        public static void Serialize(SerializableSettings settings, string savePath)
         {
-            Contract.Requires<ArgumentNullException>(info != null);
+            Contract.Requires<ArgumentNullException>(settings != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(savePath));
-            Contract.Requires<ArgumentException>(info.Rate.Count > 0);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(RateInfo));
+            XmlSerializer serializer = new XmlSerializer(typeof(SerializableSettings));
 
             using (TextWriter writer = new StreamWriter(savePath))
             {
-                serializer.Serialize(writer, info);
+                serializer.Serialize(writer, settings);
             }
         }
     }

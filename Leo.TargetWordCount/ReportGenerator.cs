@@ -2,13 +2,11 @@
 {
     using Models;
     using Sdl.Core.Globalization;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Xml.Linq;
-    using System.Diagnostics.Contracts;
     using System;
-    using System.Diagnostics.CodeAnalysis;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Linq;
+
     public static class ReportGenerator
     {
         private const string Characters = "Characters";
@@ -81,7 +79,12 @@
                     info.Increment(CountTotal.New, segInfo.CountData);
                 }
 
-                info.Increment(CountTotal.Total, segInfo.CountData);
+                if (!(settings.ReportLockedSeperately && segInfo.IsLocked))
+                {
+                    info.Increment(CountTotal.Total, segInfo.CountData);
+                }
+
+                info.SpaceCountTotal += segInfo.SpaceCount;
             }
         }
 

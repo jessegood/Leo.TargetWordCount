@@ -7,6 +7,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+    using System.Linq;
 
     public class SegmentWordCounter : AbstractBilingualContentProcessor, ISegmentWordCounter
     {
@@ -64,12 +65,18 @@
                 if (settings.UseSource)
                 {
                     var source = pair.Source;
-                    segmentCountInfo.Add(new SegmentCountInfo(source.Properties.TranslationOrigin, wordCounter.Count(source), source.Properties.IsLocked));
+
+                    var plainText = new PlainTextExtractor().GetPlainText(source);
+
+                    segmentCountInfo.Add(new SegmentCountInfo(source.Properties.TranslationOrigin, wordCounter.Count(source), source.Properties.IsLocked, plainText.Count(char.IsWhiteSpace)));
                 }
                 else
                 {
                     var target = pair.Target;
-                    segmentCountInfo.Add(new SegmentCountInfo(target.Properties.TranslationOrigin, wordCounter.Count(target), target.Properties.IsLocked));
+
+                    var plainText = new PlainTextExtractor().GetPlainText(target);
+
+                    segmentCountInfo.Add(new SegmentCountInfo(target.Properties.TranslationOrigin, wordCounter.Count(target), target.Properties.IsLocked, plainText.Count(char.IsWhiteSpace)));
                 }
             }
         }

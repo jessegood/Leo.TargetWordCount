@@ -1,6 +1,5 @@
 ﻿namespace Leo.TargetWordCount.Models
 {
-    using Sdl.FileTypeSupport.Framework.NativeApi;
     using Sdl.ProjectAutomation.Core;
     using System;
     using System.Collections.Generic;
@@ -8,7 +7,6 @@
 
     public sealed class CountTotal
     {
-        public const string PerfectMatch = "PerfectMatch";
         public const string ContextMatch = "ContextMatch";
         public const string CrossFileRepetitions = "CrossFileRepetitions";
         public const string EightyFivePercent = "EightyFivePercent";
@@ -17,6 +15,7 @@
         public const string New = "New";
         public const string NinetyFivePercent = "NinetyFivePercent";
         public const string OneHundredPercent = "OneHundredPercent";
+        public const string PerfectMatch = "PerfectMatch";
         public const string Repetitions = "Repetitions";
         public const string SeventyFivePercent = "SeventyFivePercent";
         public const string Total = "Total";
@@ -40,6 +39,8 @@
         public CountUnit CountMethod { get; set; }
 
         public string FileName { get; set; }
+
+        public int SpaceCountTotal { get; set; } = 0;
 
         public Dictionary<string, CountData> Totals { get { return info; } }
 

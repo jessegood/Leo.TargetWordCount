@@ -22,6 +22,7 @@
             }
         }
 
+        public bool IncludeSpaces { get; set; }
         public List<InvoiceItem> InvoiceRates
         {
             get
@@ -38,6 +39,22 @@
 
         public bool ReportLockedSeperately { get; set; }
 
+        public bool UseLineCount { get; set; }
+
         public bool UseSource { get; set; }
+
+        public string CharactersPerLine
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<string>() != null);
+                return default(string);
+            }
+
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+            }
+        }
     }
 }

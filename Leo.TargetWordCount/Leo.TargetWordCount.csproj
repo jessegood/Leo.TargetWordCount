@@ -134,6 +134,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\SerializableSettings.cs" />
+    <Compile Include="PlainTextExtractor.cs" />
     <Compile Include="CountUnit.cs" />
     <Compile Include="CultureRepository.cs" />
     <Compile Include="FileDialog.cs" />
@@ -148,6 +150,7 @@
     <Compile Include="Models\SegmentCountInfo.cs" />
     <Compile Include="ReportBuilder.cs" />
     <Compile Include="ReportGenerator.cs" />
+    <Compile Include="Utilities\SettingsManager.cs" />
     <Compile Include="Utilities\XmlUtilities.cs" />
     <Compile Include="WordCountBatchTask.cs" />
     <Compile Include="WordCountBatchTaskSettings.cs" />

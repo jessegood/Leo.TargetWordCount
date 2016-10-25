@@ -30,6 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.includeSpacesCheckBox = new System.Windows.Forms.CheckBox();
+            this.charPerLineLabel = new System.Windows.Forms.Label();
+            this.charPerLineTextBox = new System.Windows.Forms.TextBox();
+            this.lineCountCheckBox = new System.Windows.Forms.CheckBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.loadButton = new System.Windows.Forms.Button();
             this.cultureLabel = new System.Windows.Forms.Label();
@@ -41,15 +45,13 @@
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.TypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lineCountCheckBox = new System.Windows.Forms.CheckBox();
-            this.charPerLineTextBox = new System.Windows.Forms.TextBox();
-            this.charPerLineLabel = new System.Windows.Forms.Label();
             this.groupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox
             // 
+            this.groupBox.Controls.Add(this.includeSpacesCheckBox);
             this.groupBox.Controls.Add(this.charPerLineLabel);
             this.groupBox.Controls.Add(this.charPerLineTextBox);
             this.groupBox.Controls.Add(this.lineCountCheckBox);
@@ -67,9 +69,45 @@
             this.groupBox.TabIndex = 1;
             this.groupBox.TabStop = false;
             // 
+            // includeSpacesCheckBox
+            // 
+            this.includeSpacesCheckBox.AutoSize = true;
+            this.includeSpacesCheckBox.Location = new System.Drawing.Point(395, 49);
+            this.includeSpacesCheckBox.Name = "includeSpacesCheckBox";
+            this.includeSpacesCheckBox.Size = new System.Drawing.Size(100, 16);
+            this.includeSpacesCheckBox.TabIndex = 10;
+            this.includeSpacesCheckBox.Text = "Include spaces";
+            this.includeSpacesCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // charPerLineLabel
+            // 
+            this.charPerLineLabel.AutoSize = true;
+            this.charPerLineLabel.Location = new System.Drawing.Point(235, 49);
+            this.charPerLineLabel.Name = "charPerLineLabel";
+            this.charPerLineLabel.Size = new System.Drawing.Size(105, 12);
+            this.charPerLineLabel.TabIndex = 9;
+            this.charPerLineLabel.Text = "Characters per line:";
+            // 
+            // charPerLineTextBox
+            // 
+            this.charPerLineTextBox.Location = new System.Drawing.Point(346, 46);
+            this.charPerLineTextBox.Name = "charPerLineTextBox";
+            this.charPerLineTextBox.Size = new System.Drawing.Size(43, 19);
+            this.charPerLineTextBox.TabIndex = 8;
+            // 
+            // lineCountCheckBox
+            // 
+            this.lineCountCheckBox.AutoSize = true;
+            this.lineCountCheckBox.Location = new System.Drawing.Point(349, 17);
+            this.lineCountCheckBox.Name = "lineCountCheckBox";
+            this.lineCountCheckBox.Size = new System.Drawing.Size(114, 16);
+            this.lineCountCheckBox.TabIndex = 7;
+            this.lineCountCheckBox.Text = "Calculate per line";
+            this.lineCountCheckBox.UseVisualStyleBackColor = true;
+            // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(518, 40);
+            this.saveButton.Location = new System.Drawing.Point(501, 44);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 6;
@@ -78,7 +116,7 @@
             // 
             // loadButton
             // 
-            this.loadButton.Location = new System.Drawing.Point(518, 10);
+            this.loadButton.Location = new System.Drawing.Point(501, 11);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(75, 23);
             this.loadButton.TabIndex = 5;
@@ -97,6 +135,7 @@
             // 
             // cultureComboBox
             // 
+            this.cultureComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cultureComboBox.FormattingEnabled = true;
             this.cultureComboBox.Location = new System.Drawing.Point(93, 46);
             this.cultureComboBox.Name = "cultureComboBox";
@@ -163,38 +202,13 @@
             this.RateColumn.HeaderText = "Rate";
             this.RateColumn.Name = "RateColumn";
             // 
-            // lineCountCheckBox
-            // 
-            this.lineCountCheckBox.AutoSize = true;
-            this.lineCountCheckBox.Location = new System.Drawing.Point(349, 17);
-            this.lineCountCheckBox.Name = "lineCountCheckBox";
-            this.lineCountCheckBox.Size = new System.Drawing.Size(114, 16);
-            this.lineCountCheckBox.TabIndex = 7;
-            this.lineCountCheckBox.Text = "Calculate per line";
-            this.lineCountCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // charPerLineTextBox
-            // 
-            this.charPerLineTextBox.Location = new System.Drawing.Point(349, 47);
-            this.charPerLineTextBox.Name = "charPerLineTextBox";
-            this.charPerLineTextBox.Size = new System.Drawing.Size(100, 19);
-            this.charPerLineTextBox.TabIndex = 8;
-            // 
-            // charPerLineLabel
-            // 
-            this.charPerLineLabel.AutoSize = true;
-            this.charPerLineLabel.Location = new System.Drawing.Point(239, 49);
-            this.charPerLineLabel.Name = "charPerLineLabel";
-            this.charPerLineLabel.Size = new System.Drawing.Size(105, 12);
-            this.charPerLineLabel.TabIndex = 9;
-            this.charPerLineLabel.Text = "Characters per line:";
-            // 
             // WordCountBatchTaskSettingsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.groupBox);
+            this.MinimumSize = new System.Drawing.Size(599, 436);
             this.Name = "WordCountBatchTaskSettingsControl";
             this.Size = new System.Drawing.Size(599, 436);
             this.groupBox.ResumeLayout(false);
@@ -220,5 +234,6 @@
         private System.Windows.Forms.CheckBox lineCountCheckBox;
         private System.Windows.Forms.Label charPerLineLabel;
         private System.Windows.Forms.TextBox charPerLineTextBox;
+        private System.Windows.Forms.CheckBox includeSpacesCheckBox;
     }
 }

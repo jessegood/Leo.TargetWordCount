@@ -98,7 +98,8 @@
 
             return new SegmentCountInfo(transOrigin,
                                         countData,
-                                        false);
+                                        false,
+                                        0);
         }
     }
 }

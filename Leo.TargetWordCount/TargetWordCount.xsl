@@ -3,12 +3,15 @@
   <xsl:template match="/">
     <html>
       <style>
+        .Caption {
+        background-color: #cae8cb
+        }
         .Table {
         border-collapse: collapse,
         border: solid 1px #DDEEEE;
         }
         .Cell {
-        text-align: left;
+        text-align: right;
         padding: 8px;
         }
         .Header {
@@ -16,46 +19,105 @@
         color: white;
         padding: 8px;
         }
-      
+        .Even {
+        background-color: #CCCCCC;
+        }
+
       </style>
       <body>
-        <xsl:for-each select="//File">
-          <table class="Table">
-            <caption>
-              <xsl:value-of select="@Name" />
-            </caption>
+        <table class="Table">
+          <caption class="Caption">
+            Total
+          </caption>
+          <tr>
+            <th class="Header">
+              Type
+            </th>
+            <th class="Header">
+              Segments
+            </th>
+            <xsl:if test="//GrandTotal/Total/@TotalCharacters">
+              <th class="Header">
+                Total Characters
+              </th>
+            </xsl:if>
+            <xsl:if test="//GrandTotal/Total/@CharactersPerLine">
+              <th class="Header">
+                Characters Per Line
+              </th>
+            </xsl:if>
+            <th class="Header">
+              <xsl:value-of select="//GrandTotal/@CountType" />
+            </th>
+            <th class="Header">
+              Rate
+            </th>
+            <th class="Header">
+              Amount
+            </th>
+          </tr>
+          <xsl:if test="//GrandTotal/Locked">
+          <tr class="Even">
+            <td style="Cell">
+              Locked
+            </td>
+            <td style="Cell">
+              <xsl:value-of select="//GrandTotal/Locked/@Segments" />
+            </td>
+            <xsl:if test="//GrandTotal/Locked/@TotalCharacters">
+              <td style="Cell">
+                <xsl:value-of select="//GrandTotal/Locked/@TotalCharacters" />
+              </td>
+            </xsl:if>
+            <xsl:if test="//GrandTotal/Locked/@CharactersPerLine">
+              <td style="Cell">
+                <xsl:value-of select="//GrandTotal/Locked/@CharactersPerLine" />
+              </td>
+            </xsl:if>
+            <td style="Cell">
+              <xsl:value-of select="//GrandTotal/Locked/@Count" />
+            </td>
+            <td style="Cell">
+              <xsl:value-of select="//GrandTotal/Locked/@Rate" />
+            </td>
+            <td style="Cell">
+              <xsl:value-of select="//GrandTotal/Locked/@Amount" />
+            </td>
+          </tr>
+          </xsl:if>
+          <xsl:if test="//GrandTotal/PerfectMatch/@Segments != ''">
             <tr>
-              <th class="Header">
-                Type
-              </th>
-              <th class="Header">
-                Segments
-              </th>
-              <th class="Header">
-                <xsl:value-of select="@CountType" />
-              </th>
-              <th class="Header">
-                Rate
-              </th>
-              <th class="Header">
-                Amount
-              </th>
+              <td style="Cell">
+                Perfect Match
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="//GrandTotal/PerfectMatch/@Segments" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="//GrandTotal/PerfectMatch/@Count" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="//GrandTotal/PerfectMatch/@Rate" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="//GrandTotal/PerfectMatch/@Amount" />
+              </td>
             </tr>
-            <tr>
+            <tr class="Even">
               <td style="Cell">
                 Context Match
               </td>
               <td style="Cell">
-                <xsl:value-of select="//ContextMatch/@Segments" />
+                <xsl:value-of select="//GrandTotal/ContextMatch/@Segments" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//ContextMatch/@Count" />
+                <xsl:value-of select="//GrandTotal/ContextMatch/@Count" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//ContextMatch/@Rate" />
+                <xsl:value-of select="//GrandTotal/ContextMatch/@Rate" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//ContextMatch/@Amount" />
+                <xsl:value-of select="//GrandTotal/ContextMatch/@Amount" />
               </td>
             </tr>
             <tr>
@@ -63,30 +125,30 @@
                 Repetitions
               </td>
               <td style="Cell">
-                <xsl:value-of select="//Repetitions/@Segments" />
+                <xsl:value-of select="//GrandTotal/Repetitions/@Segments" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//Repetitions/@Count" />
+                <xsl:value-of select="//GrandTotal/Repetitions/@Count" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//Repetitions/@Rate" />
+                <xsl:value-of select="//GrandTotal/Repetitions/@Rate" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//Repetitions/@Amount" />
+                <xsl:value-of select="//GrandTotal/Repetitions/@Amount" />
               </td>
             </tr>
-            <tr>
+            <tr class="Even">
               <td style="Cell">
                 Cross-file Repetitions
               </td>
               <td style="Cell">
-                <xsl:value-of select="//CrossFileRepetitions/@Segments" />
+                <xsl:value-of select="//GrandTotal/CrossFileRepetitions/@Segments" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//CrossFileRepetitions/@Count" />
+                <xsl:value-of select="//GrandTotal/CrossFileRepetitions/@Count" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//CrossFileRepetitions/@Rate" />
+                <xsl:value-of select="//GrandTotal/CrossFileRepetitions/@Rate" />
               </td>
               <td style="Cell">
                 <xsl:value-of select="//CrossFileRepetitions/@Amount" />
@@ -97,33 +159,33 @@
                 100%
               </td>
               <td style="Cell">
-                <xsl:value-of select="//OneHundredPercent/@Segments" />
+                <xsl:value-of select="//GrandTotal/OneHundredPercent/@Segments" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//OneHundredPercent/@Count" />
+                <xsl:value-of select="//GrandTotal/OneHundredPercent/@Count" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//OneHundredPercent/@Rate" />
+                <xsl:value-of select="//GrandTotal/OneHundredPercent/@Rate" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//OneHundredPercent/@Amount" />
+                <xsl:value-of select="//GrandTotal/OneHundredPercent/@Amount" />
               </td>
             </tr>
-            <tr>
+            <tr class="Even">
               <td style="Cell">
                 Context Match
               </td>
               <td style="Cell">
-                <xsl:value-of select="//NinetyFivePercent/@Segments" />
+                <xsl:value-of select="//GrandTotal/NinetyFivePercent/@Segments" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//NinetyFivePercent/@Count" />
+                <xsl:value-of select="//GrandTotal/NinetyFivePercent/@Count" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//NinetyFivePercent/@Rate" />
+                <xsl:value-of select="//GrandTotal/NinetyFivePercent/@Rate" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//NinetyFivePercent/@Amount" />
+                <xsl:value-of select="//GrandTotal/NinetyFivePercent/@Amount" />
               </td>
             </tr>
             <tr>
@@ -131,33 +193,33 @@
                 85% - 94%
               </td>
               <td style="Cell">
-                <xsl:value-of select="//EightyFivePercent/@Segments" />
+                <xsl:value-of select="//GrandTotal/EightyFivePercent/@Segments" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//EightyFivePercent/@Count" />
+                <xsl:value-of select="//GrandTotal/EightyFivePercent/@Count" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//EightyFivePercent/@Rate" />
+                <xsl:value-of select="//GrandTotal/EightyFivePercent/@Rate" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//EightyFivePercent/@Amount" />
+                <xsl:value-of select="//GrandTotal/EightyFivePercent/@Amount" />
               </td>
             </tr>
-            <tr>
+            <tr class="Even">
               <td style="Cell">
                 75% - 84%
               </td>
               <td style="Cell">
-                <xsl:value-of select="//SeventyFivePercent/@Segments" />
+                <xsl:value-of select="//GrandTotal/SeventyFivePercent/@Segments" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//SeventyFivePercent/@Count" />
+                <xsl:value-of select="//GrandTotal/SeventyFivePercent/@Count" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//SeventyFivePercent/@Rate" />
+                <xsl:value-of select="//GrandTotal/SeventyFivePercent/@Rate" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//SeventyFivePercent/@Amount" />
+                <xsl:value-of select="//GrandTotal/SeventyFivePercent/@Amount" />
               </td>
             </tr>
             <tr>
@@ -165,49 +227,322 @@
                 50% - 74%
               </td>
               <td style="Cell">
-                <xsl:value-of select="//FiftyPercent/@Segments" />
+                <xsl:value-of select="//GrandTotal/FiftyPercent/@Segments" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//FiftyPercent/@Count" />
+                <xsl:value-of select="//GrandTotal/FiftyPercent/@Count" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//FiftyPercent/@Rate" />
+                <xsl:value-of select="//GrandTotal/FiftyPercent/@Rate" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//FiftyPercent/@Amount" />
+                <xsl:value-of select="//GrandTotal/FiftyPercent/@Amount" />
               </td>
             </tr>
-            <tr>
+            <tr class="Even">
               <td style="Cell">
                 New
               </td>
               <td style="Cell">
-                <xsl:value-of select="//New/@Segments" />
+                <xsl:value-of select="//GrandTotal/New/@Segments" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//New/@Count" />
+                <xsl:value-of select="//GrandTotal/New/@Count" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//New/@Rate" />
+                <xsl:value-of select="//GrandTotal/New/@Rate" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//New/@Amount" />
+                <xsl:value-of select="//GrandTotal/New/@Amount" />
               </td>
             </tr>
+          </xsl:if>
+          <tr>
+            <td>
+              Total
+            </td>
+            <td style="Cell">
+              <xsl:value-of select="//GrandTotal/Total/@Segments" />
+            </td>
+            <xsl:if test="//GrandTotal/Total/@TotalCharacters">
+              <td style="Cell">
+                <xsl:value-of select="//GrandTotal/Total/@TotalCharacters" />
+              </td>
+            </xsl:if>
+            <xsl:if test="//GrandTotal/Total/@CharactersPerLine">
+              <td style="Cell">
+                <xsl:value-of select="//GrandTotal/Total/@CharactersPerLine" />
+              </td>
+            </xsl:if>
+            <td style="Cell">
+              <xsl:value-of select="//GrandTotal/Total/@Count" />
+            </td>
+            <td style="Cell">
+              <xsl:value-of select="//GrandTotal/Total/@Rate" />
+            </td>
+            <td style="Cell">
+              <xsl:value-of select="//GrandTotal/Total/@Amount" />
+            </td>
+          </tr>
+        </table>
+        <xsl:for-each select="//File">
+          <table class="Table">
+            <caption class="Caption">
+              <xsl:value-of select="@Name" />
+            </caption>
+            <tr>
+              <th class="Header">
+                Type
+              </th>
+              <th class="Header">
+                Segments
+              </th>
+              <xsl:if test="//GrandTotal/Total/@TotalCharacters">
+                <th class="Header">
+                  Total Characters
+                </th>
+              </xsl:if>
+              <xsl:if test="//GrandTotal/Total/@CharactersPerLine">
+                <th class="Header">
+                  Characters Per Line
+                </th>
+              </xsl:if>
+              <th class="Header">
+                <xsl:value-of select="@CountType" />
+              </th>
+              <th class="Header">
+                Rate
+              </th>
+              <th class="Header">
+                Amount
+              </th>
+            </tr>
+            <xsl:if test="Locked">
+              <tr class="Even">
+                <td style="Cell">
+                  Locked
+                </td>
+                <td style="Cell">
+                  <xsl:value-of select="Locked/@Segments" />
+                </td>
+                <xsl:if test="Locked/@TotalCharacters">
+                  <td style="Cell">
+                    <xsl:value-of select="Locked/@TotalCharacters" />
+                  </td>
+                </xsl:if>
+                <xsl:if test="Locked/@CharactersPerLine">
+                  <td style="Cell">
+                    <xsl:value-of select="Locked/@CharactersPerLine" />
+                  </td>
+                </xsl:if>
+                <td style="Cell">
+                  <xsl:value-of select="Locked/@Count" />
+                </td>
+                <td style="Cell">
+                  <xsl:value-of select="Locked/@Rate" />
+                </td>
+                <td style="Cell">
+                  <xsl:value-of select="Locked/@Amount" />
+                </td>
+              </tr>
+            </xsl:if>
+            <xsl:if test="//GrandTotal/PerfectMatch/@Segments != ''">
+            <tr>
+              <td style="Cell">
+                Perfect Match
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="PerfectMatch/@Segments" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="PerfectMatch/@Count" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="PerfectMatch/@Rate" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="PerfectMatch/@Amount" />
+              </td>
+            </tr>
+            <tr class="Even">
+              <td style="Cell">
+                Context Match
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="ContextMatch/@Segments" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="ContextMatch/@Count" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="ContextMatch/@Rate" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="ContextMatch/@Amount" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Repetitions
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="Repetitions/@Segments" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="Repetitions/@Count" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="Repetitions/@Rate" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="Repetitions/@Amount" />
+              </td>
+            </tr>
+            <tr class="Even">
+              <td style="Cell">
+                Cross-file Repetitions
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="CrossFileRepetitions/@Segments" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="CrossFileRepetitions/@Count" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="CrossFileRepetitions/@Rate" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="CrossFileRepetitions/@Amount" />
+              </td>
+            </tr>
+            <tr>
+              <td style="Cell">
+                100%
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="OneHundredPercent/@Segments" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="OneHundredPercent/@Count" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="OneHundredPercent/@Rate" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="OneHundredPercent/@Amount" />
+              </td>
+            </tr>
+            <tr class="Even">
+              <td style="Cell">
+                Context Match
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="NinetyFivePercent/@Segments" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="NinetyFivePercent/@Count" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="NinetyFivePercent/@Rate" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="NinetyFivePercent/@Amount" />
+              </td>
+            </tr>
+            <tr>
+              <td style="Cell">
+                85% - 94%
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="EightyFivePercent/@Segments" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="EightyFivePercent/@Count" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="EightyFivePercent/@Rate" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="EightyFivePercent/@Amount" />
+              </td>
+            </tr>
+            <tr class="Even">
+              <td style="Cell">
+                75% - 84%
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="SeventyFivePercent/@Segments" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="SeventyFivePercent/@Count" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="SeventyFivePercent/@Rate" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="SeventyFivePercent/@Amount" />
+              </td>
+            </tr>
+            <tr>
+              <td style="Cell">
+                50% - 74%
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="FiftyPercent/@Segments" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="FiftyPercent/@Count" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="FiftyPercent/@Rate" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="FiftyPercent/@Amount" />
+              </td>
+            </tr>
+            <tr class="Even">
+              <td style="Cell">
+                New
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="New/@Segments" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="New/@Count" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="New/@Rate" />
+              </td>
+              <td style="Cell">
+                <xsl:value-of select="New/@Amount" />
+              </td>
+            </tr>
+            </xsl:if>
             <tr>
               <td>
                 Total
               </td>
               <td style="Cell">
-                <xsl:value-of select="//Total/@Segments" />
+                <xsl:value-of select="Total/@Segments" />
+              </td>
+              <xsl:if test="Total/@TotalCharacters">
+                <td style="Cell">
+                  <xsl:value-of select="Total/@TotalCharacters" />
+                </td>
+              </xsl:if>
+              <xsl:if test="Total/@CharactersPerLine">
+                <td style="Cell">
+                  <xsl:value-of select="Total/@CharactersPerLine" />
+                </td>
+              </xsl:if>
+              <td style="Cell">
+                <xsl:value-of select="Total/@Count" />
               </td>
               <td style="Cell">
-                <xsl:value-of select="//Total/@Count" />
+                <xsl:value-of select="Total/@Rate" />
               </td>
               <td style="Cell">
-              </td>
-              <td style="Cell">
-                <xsl:value-of select="//Total/@Amount" />
+                <xsl:value-of select="Total/@Amount" />
               </td>
             </tr>
           </table>
