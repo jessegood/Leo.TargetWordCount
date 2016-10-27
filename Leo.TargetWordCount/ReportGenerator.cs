@@ -38,48 +38,55 @@
             {
                 var origin = segInfo.TranslationOrigin;
 
-                if (settings.ReportLockedSeperately && segInfo.IsLocked)
+                if (origin == null)
                 {
-                    info.Increment(CountTotal.Locked, segInfo.CountData);
-                }
-                else if (origin.OriginType == "document-match")
-                {
-                    info.Increment(CountTotal.PerfectMatch, segInfo.CountData);
-                }
-                else if (origin.IsRepeated)
-                {
-                    info.Increment(CountTotal.Repetitions, segInfo.CountData);
-                }
-                else if (origin.MatchPercent == 100)
-                {
-                    if (origin.TextContextMatchLevel == Sdl.FileTypeSupport.Framework.NativeApi.TextContextMatchLevel.SourceAndTarget)
-                    {
-                        info.Increment(CountTotal.ContextMatch, segInfo.CountData);
-                    }
-                    else
-                    {
-                        info.Increment(CountTotal.OneHundredPercent, segInfo.CountData);
-                    }
-                }
-                else if (origin.MatchPercent >= 95)
-                {
-                    info.Increment(CountTotal.NinetyFivePercent, segInfo.CountData);
-                }
-                else if (origin.MatchPercent >= 85)
-                {
-                    info.Increment(CountTotal.EightyFivePercent, segInfo.CountData);
-                }
-                else if (origin.MatchPercent >= 75)
-                {
-                    info.Increment(CountTotal.SeventyFivePercent, segInfo.CountData);
-                }
-                else if (origin.MatchPercent >= 50)
-                {
-                    info.Increment(CountTotal.FiftyPercent, segInfo.CountData);
+                    info.Increment(CountTotal.New, segInfo.CountData);
                 }
                 else
                 {
-                    info.Increment(CountTotal.New, segInfo.CountData);
+                    if (settings.ReportLockedSeperately && segInfo.IsLocked)
+                    {
+                        info.Increment(CountTotal.Locked, segInfo.CountData);
+                    }
+                    else if (origin.OriginType == "document-match")
+                    {
+                        info.Increment(CountTotal.PerfectMatch, segInfo.CountData);
+                    }
+                    else if (origin.IsRepeated)
+                    {
+                        info.Increment(CountTotal.Repetitions, segInfo.CountData);
+                    }
+                    else if (origin.MatchPercent == 100)
+                    {
+                        if (origin.TextContextMatchLevel == Sdl.FileTypeSupport.Framework.NativeApi.TextContextMatchLevel.SourceAndTarget)
+                        {
+                            info.Increment(CountTotal.ContextMatch, segInfo.CountData);
+                        }
+                        else
+                        {
+                            info.Increment(CountTotal.OneHundredPercent, segInfo.CountData);
+                        }
+                    }
+                    else if (origin.MatchPercent >= 95)
+                    {
+                        info.Increment(CountTotal.NinetyFivePercent, segInfo.CountData);
+                    }
+                    else if (origin.MatchPercent >= 85)
+                    {
+                        info.Increment(CountTotal.EightyFivePercent, segInfo.CountData);
+                    }
+                    else if (origin.MatchPercent >= 75)
+                    {
+                        info.Increment(CountTotal.SeventyFivePercent, segInfo.CountData);
+                    }
+                    else if (origin.MatchPercent >= 50)
+                    {
+                        info.Increment(CountTotal.FiftyPercent, segInfo.CountData);
+                    }
+                    else
+                    {
+                        info.Increment(CountTotal.New, segInfo.CountData);
+                    }
                 }
 
                 if (!(settings.ReportLockedSeperately && segInfo.IsLocked))

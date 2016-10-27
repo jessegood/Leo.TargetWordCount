@@ -114,8 +114,11 @@
                 var cell = row.Cells[1];
                 var rate = cell.Value.ToString();
 
-                var r = decimal.Parse(rate, System.Globalization.NumberStyles.Currency, CultureRepository.Cultures[prevCulture]);
-                cell.Value = r.ToString("C2", CultureRepository.Cultures[Settings.Culture]);
+                if (!string.IsNullOrWhiteSpace(rate))
+                {
+                    var r = decimal.Parse(rate, System.Globalization.NumberStyles.Currency, CultureRepository.Cultures[prevCulture]);
+                    cell.Value = r.ToString("C2", CultureRepository.Cultures[Settings.Culture]);
+                }
             }
         }
 
