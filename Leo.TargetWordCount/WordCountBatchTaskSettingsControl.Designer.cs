@@ -65,7 +65,7 @@
             this.groupBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox.Location = new System.Drawing.Point(0, 0);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(599, 79);
+            this.groupBox.Size = new System.Drawing.Size(504, 108);
             this.groupBox.TabIndex = 1;
             this.groupBox.TabStop = false;
             // 
@@ -107,7 +107,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(501, 44);
+            this.saveButton.Location = new System.Drawing.Point(12, 79);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 6;
@@ -116,7 +116,7 @@
             // 
             // loadButton
             // 
-            this.loadButton.Location = new System.Drawing.Point(501, 11);
+            this.loadButton.Location = new System.Drawing.Point(93, 79);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(75, 23);
             this.loadButton.TabIndex = 5;
@@ -183,7 +183,8 @@
             this.TypeColumn,
             this.RateColumn});
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView.Location = new System.Drawing.Point(0, 79);
+            this.dataGridView.Location = new System.Drawing.Point(0, 108);
+            this.dataGridView.MinimumSize = new System.Drawing.Size(599, 357);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.Size = new System.Drawing.Size(599, 357);
@@ -208,9 +209,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.groupBox);
-            this.MinimumSize = new System.Drawing.Size(599, 436);
+            this.MinimumSize = new System.Drawing.Size(504, 436);
             this.Name = "WordCountBatchTaskSettingsControl";
-            this.Size = new System.Drawing.Size(599, 436);
+            this.Size = new System.Drawing.Size(504, 436);
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();

@@ -50,13 +50,16 @@
                 {
                     info.Increment(CountTotal.Repetitions, segInfo.CountData);
                 }
-                else if (origin.IsStructureContextMatch)
-                {
-                    info.Increment(CountTotal.ContextMatch, segInfo.CountData);
-                }
                 else if (origin.MatchPercent == 100)
                 {
-                    info.Increment(CountTotal.OneHundredPercent, segInfo.CountData);
+                    if (origin.TextContextMatchLevel == Sdl.FileTypeSupport.Framework.NativeApi.TextContextMatchLevel.SourceAndTarget)
+                    {
+                        info.Increment(CountTotal.ContextMatch, segInfo.CountData);
+                    }
+                    else
+                    {
+                        info.Increment(CountTotal.OneHundredPercent, segInfo.CountData);
+                    }
                 }
                 else if (origin.MatchPercent >= 95)
                 {
