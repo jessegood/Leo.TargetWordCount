@@ -60,7 +60,7 @@
         {
             cultureComboBox.BeginUpdate();
 
-            foreach (var culture in CultureInfo.GetCultures(CultureTypes.AllCultures))
+            foreach (var culture in CultureInfo.GetCultures(CultureTypes.AllCultures).OrderBy(c => c.EnglishName))
             {
                 cultureComboBox.Items.Add(culture.EnglishName);
             }
@@ -116,8 +116,20 @@
 
                 if (!string.IsNullOrWhiteSpace(rate))
                 {
-                    var r = decimal.Parse(rate, System.Globalization.NumberStyles.Currency, CultureRepository.Cultures[prevCulture]);
-                    cell.Value = r.ToString("C2", CultureRepository.Cultures[Settings.Culture]);
+                    decimal r = 0M;
+                    string value = string.Empty;
+                    try
+                    {
+                        r = decimal.Parse(rate, System.Globalization.NumberStyles.Currency, CultureRepository.Cultures[prevCulture]);
+                        value = r.ToString("C2", CultureRepository.Cultures[Settings.Culture]);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    finally
+                    {
+                        cell.Value = value;
+                    }
                 }
             }
         }
@@ -128,10 +140,24 @@
             {
                 var cell = dataGridView[e.ColumnIndex, e.RowIndex];
                 decimal d;
-
-                if (decimal.TryParse(cell.Value.ToString(), out d))
+                
+                if (!string.IsNullOrWhiteSpace((string)cell.Value))
                 {
-                    cell.Value = d.ToString("C2", CultureRepository.Cultures[cultureComboBox.SelectedItem.ToString()]);
+                    if (decimal.TryParse(cell.Value.ToString(), out d))
+                    {
+                        string value = string.Empty;
+                        try
+                        {
+                            value = d.ToString("C2", CultureRepository.Cultures[cultureComboBox.SelectedItem.ToString()]);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                        finally
+                        {
+                            cell.Value = value;
+                        }
+                    }
                 }
             }
         }
