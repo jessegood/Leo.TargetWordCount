@@ -161,10 +161,9 @@
                     return new XElement(item,
                                new XAttribute("Segments", segments),
                                new XAttribute("Count", count),
-                               new XAttribute("Rate", string.IsNullOrWhiteSpace(invoiceItem.Rate) ? "0" : invoiceItem.Rate),
+                               new XAttribute("Rate", ""),
                                new XAttribute("Amount", t.ToString("C2", CultureRepository.Cultures[settings.Culture])));
                 }
-
             }
         }
     }
