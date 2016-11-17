@@ -14,28 +14,53 @@
     [RequiresSettings(typeof(WordCountBatchTaskSettings), typeof(WordCountBatchTaskSettingsPage))]
     public class WordCountBatchTask : AbstractFileContentProcessingAutomaticTask
     {
-        private readonly List<ISegmentWordCounter> counters = new List<ISegmentWordCounter>();
+        private readonly Dictionary<string, List<ISegmentWordCounter>> counters = new Dictionary<string, List<ISegmentWordCounter>>();
+        private readonly Dictionary<string, LanguageDirection> keys = new Dictionary<string, LanguageDirection>();
         private IWordCountBatchTaskSettings settings = null;
+        private SegmentWordCounter tempCounter = null;
+
+        private string CreateKey(LanguageDirection langDir)
+        {
+            return langDir.SourceLanguage.IsoAbbreviation + langDir.TargetLanguage.IsoAbbreviation;
+        }
 
         public override bool OnFileComplete(ProjectFile projectFile, IMultiFileConverter multiFileConverter)
         {
-            var report = ReportGenerator.Generate(counters, settings);
+            var key = CreateKey(projectFile.GetLanguageDirection());
 
-            CreateReport(CreateReportName(projectFile.GetLanguageDirection()), "Count for each file", report, projectFile.GetLanguageDirection());
-
-            counters.Clear();
+            if (counters.ContainsKey(key))
+            {
+                counters[key].Add(tempCounter);
+            }
+            else
+            {
+                counters.Add(key, new List<ISegmentWordCounter>() { tempCounter });
+                keys.Add(key, projectFile.GetLanguageDirection());
+            }
 
             return false;
+        }
+
+        public override void TaskComplete()
+        {
+            base.TaskComplete();
+
+            foreach (var key in counters.Keys)
+            {
+                var report = ReportGenerator.Generate(counters[key], settings);
+
+                var langDirection = keys[key];
+
+                CreateReport(CreateReportName(langDirection), "Count for each file", report, langDirection);
+            }
         }
 
         protected override void ConfigureConverter(ProjectFile projectFile, IMultiFileConverter multiFileConverter)
         {
             Contract.Assume(settings != null);
 
-            SegmentWordCounter counter = new SegmentWordCounter(projectFile.Name, settings, GetWordCounter(projectFile));
-            multiFileConverter.AddBilingualProcessor(counter);
-
-            counters.Add(counter);
+            tempCounter = new SegmentWordCounter(projectFile.Name, settings, GetWordCounter(projectFile));
+            multiFileConverter.AddBilingualProcessor(tempCounter);
         }
 
         protected override void OnInitializeTask()

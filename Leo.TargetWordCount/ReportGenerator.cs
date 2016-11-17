@@ -94,7 +94,14 @@
                     info.Increment(CountTotal.Total, segInfo.CountData);
                 }
 
-                info.SpaceCountTotal += segInfo.SpaceCount;
+                if (segInfo.IsLocked)
+                {
+                    info.LockedSpaceCountTotal += segInfo.SpaceCount;
+                }
+                else
+                {
+                    info.UnlockedSpaceCountTotal += segInfo.SpaceCount;
+                }
             }
         }
 
@@ -108,6 +115,8 @@
 
                 fileData.Add(info);
                 grandTotal.Increment(info);
+                grandTotal.UnlockedSpaceCountTotal += info.UnlockedSpaceCountTotal;
+                grandTotal.LockedSpaceCountTotal += info.LockedSpaceCountTotal;
             }
         }
 

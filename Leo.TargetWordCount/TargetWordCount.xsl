@@ -173,7 +173,7 @@
             </tr>
             <tr class="Even">
               <td style="Cell">
-                Context Match
+                95% - 99%
               </td>
               <td style="Cell">
                 <xsl:value-of select="//GrandTotal/NinetyFivePercent/@Segments" />
@@ -434,7 +434,7 @@
             </tr>
             <tr class="Even">
               <td style="Cell">
-                Context Match
+                95% - 99%
               </td>
               <td style="Cell">
                 <xsl:value-of select="NinetyFivePercent/@Segments" />

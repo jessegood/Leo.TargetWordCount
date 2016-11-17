@@ -1,6 +1,7 @@
 ﻿namespace Leo.TargetWordCount
 {
     using Models;
+    using Sdl.ProjectAutomation.Core;
     using System;
     using System.Diagnostics.Contracts;
     using System.Xml.Linq;
@@ -57,6 +58,7 @@
 
             return countType;
         }
+
         private void BuildTable(CountTotal total, IWordCountBatchTaskSettings settings, XElement parent)
         {
             if (settings.UseLineCount)
@@ -105,17 +107,11 @@
 
             var amount = count * rate;
             int output = 0;
+            int totalChar = 0;
             if (settings.UseLineCount)
             {
-                if (!string.IsNullOrWhiteSpace(settings.CharactersPerLine))
-                {
-                    if (int.TryParse(settings.CharactersPerLine, out output))
-                    {
-                        var num = Math.Round(Convert.ToDecimal(countData.Characters) / Convert.ToDecimal(output), MidpointRounding.AwayFromZero);
-                        count = Convert.ToInt32(num);
-                        amount = count * rate;
-                    }
-                }
+                count = CalculateLineCount(type, settings, countData, total, ref output, ref totalChar);
+                amount = count * rate;
             }
 
             totalAmount += amount;
@@ -126,7 +122,7 @@
                 {
                     return new XElement(item,
                                 new XAttribute("Segments", segments),
-                                new XAttribute("TotalCharacters", countData.Characters),
+                                new XAttribute("TotalCharacters", totalChar),
                                 new XAttribute("CharactersPerLine", output),
                                 new XAttribute("Count", count),
                                 new XAttribute("Rate", string.IsNullOrWhiteSpace(invoiceItem.Rate) ? "0" : invoiceItem.Rate),
@@ -150,7 +146,7 @@
                 {
                     return new XElement(item,
                                new XAttribute("Segments", segments),
-                               new XAttribute("TotalCharacters", countData.Characters),
+                               new XAttribute("TotalCharacters", totalChar),
                                new XAttribute("CharactersPerLine", output),
                                new XAttribute("Count", count),
                                new XAttribute("Rate", string.IsNullOrWhiteSpace(invoiceItem.Rate) ? "0" : invoiceItem.Rate),
@@ -165,6 +161,50 @@
                                new XAttribute("Amount", t.ToString("C2", CultureRepository.Cultures[settings.Culture])));
                 }
             }
+        }
+
+        private static int CalculateLineCount(RateType type, IWordCountBatchTaskSettings settings, CountData countData, CountTotal total, ref int output, ref int totalChar)
+        {
+            if (!string.IsNullOrWhiteSpace(settings.CharactersPerLine))
+            {
+                if (int.TryParse(settings.CharactersPerLine, out output))
+                {
+                    if (type == RateType.Locked && settings.ReportLockedSeperately)
+                    {
+                        if (settings.IncludeSpaces)
+                        {
+                            totalChar = countData.Characters + total.LockedSpaceCountTotal;
+                        }
+                        else
+                        {
+                            totalChar = countData.Characters;
+                        }
+                    }
+                    else
+                    {
+                        if (settings.IncludeSpaces)
+                        {
+                            if (settings.ReportLockedSeperately)
+                            {
+                                totalChar = countData.Characters + total.UnlockedSpaceCountTotal;
+                            }
+                            else
+                            {
+                                totalChar = countData.Characters + total.UnlockedSpaceCountTotal + total.LockedSpaceCountTotal;
+                            }
+                        }
+                        else
+                        {
+                            totalChar = countData.Characters;
+                        }
+                    }
+
+                    var num = Math.Round(Convert.ToDecimal(countData.Characters) / Convert.ToDecimal(output), MidpointRounding.AwayFromZero);
+                    return Convert.ToInt32(num);
+                }
+            }
+
+            return 0;
         }
     }
 }

@@ -54,6 +54,11 @@
             AddRows();
 
             dataGridView.CellEndEdit += DataGridView_CellEndEdit;
+
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void AddCultures()

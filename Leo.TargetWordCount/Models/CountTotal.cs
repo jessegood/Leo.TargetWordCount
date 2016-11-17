@@ -40,7 +40,9 @@
 
         public string FileName { get; set; }
 
-        public int SpaceCountTotal { get; set; } = 0;
+        public int LockedSpaceCountTotal { get; set; } = 0;
+
+        public int UnlockedSpaceCountTotal { get; set; } = 0;
 
         public Dictionary<string, CountData> Totals { get { return info; } }
 
