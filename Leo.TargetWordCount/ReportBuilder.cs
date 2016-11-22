@@ -199,7 +199,7 @@
                         }
                     }
 
-                    var num = Math.Round(Convert.ToDecimal(countData.Characters) / Convert.ToDecimal(output), MidpointRounding.AwayFromZero);
+                    var num = Math.Round(Convert.ToDecimal(totalChar) / Convert.ToDecimal(output), MidpointRounding.AwayFromZero);
                     return Convert.ToInt32(num);
                 }
             }
